@@ -1,0 +1,62 @@
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+
+    border: 2px solid black;
+    border-radius: 8px;
+
+    padding: 40px;
+    width: 550px;
+    /* Adjust the width */
+    height: 50px;
+    /* Adjust the height */
+    margin-top: 200px;
+    /* margin-left:500px; */
+    /* margin-right:100px; */
+    margin-bottom: 200px;
+}
+
+
+.buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 40px;
+    margin-right: 120px;
+    /* margin-left: 245px;   */
+}
+
+.form-control {
+    display: flex;
+    width: 100%;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 150px;
+
+}
+
+
+.input {
+    display: flex;
+    gap: 25px;
+    flex-direction: column;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: black
+    /* border: 1px solid black;
+    border-radius: 2px; */
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+}

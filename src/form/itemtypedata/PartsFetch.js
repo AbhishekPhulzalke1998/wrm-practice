@@ -1,4 +1,3 @@
-// PartsFetch.js
 import React, { useState, useEffect } from 'react';    // all parts fetched 
 import axios from 'axios';
 import PartsTable from './PartsTable'; 

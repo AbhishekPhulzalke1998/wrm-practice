@@ -5,37 +5,35 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 const PartsTable = ({ parts, propertyNames }) => {
   // Configured labels for each property
   const propertyLabelMapping = {
-
-     created_on: 'Created_On',
+    created_on: 'Created_On',
     'current_state@aras.name': 'Current_State',
-     description: 'Description',
-     generation:'Generation',
-     has_change_pending: 'Changes',
-     id: 'ID',
-     is_current:'Is_Current',
-     is_released:'Released',
-     keyed_name:'Keyed Name',
-     major_rev: 'Revision',
-     make_buy: 'Make/Buy',
-     mc_uom: 'Unit Of Measure',
-     modified_on: '',
-     name: 'name',
-     new_version:'new_version',
-     not_lockable:'Not Lockable',
-     state:'State',
-     unit:'Unit',
-     item_number:'Part Number',
-     itemtype:'item_type_id',
-     classification:'Type',
-     mc_weight:'Weight',
-     cost:'Cost',
-     cost_basis:'Cost Basis',
-     thumbnail:'Thumbnail',
-     weight:'Weight',
-     weight_basis:'Weight Basis',
-     effective_date:'Effective Date',
-     release_date:'Release Date',
- 
+    description: 'Description',
+    generation: 'Generation',
+    has_change_pending: 'Changes',
+    id: 'ID',
+    is_current: 'Is_Current',
+    is_released: 'Released',
+    keyed_name: 'Keyed Name',
+    major_rev: 'Revision',
+    make_buy: 'Make/Buy',
+    mc_uom: 'Unit Of Measure',
+    modified_on: '',
+    name: 'name',
+    new_version: 'new_version',
+    not_lockable: 'Not Lockable',
+    state: 'State',
+    unit: 'Unit',
+    item_number: 'Part Number',
+    itemtype: 'item_type_id',
+    classification: 'Type',
+    mc_weight: 'Weight',
+    cost: 'Cost',
+    cost_basis: 'Cost Basis',
+    thumbnail: 'Thumbnail',
+    weight: 'Weight',
+    weight_basis: 'Weight Basis',
+    effective_date: 'Effective Date',
+    release_date: 'Release Date',
   };
 
   if (!parts || !propertyNames) {
@@ -47,8 +45,9 @@ const PartsTable = ({ parts, propertyNames }) => {
       <Table striped bordered hover variant="dark">
         <thead className="thead-light">
           <tr>
+            <th>{propertyLabelMapping['keyed_name']}</th> {/* Render 'Keyed Name' column first */}
             {propertyNames.map(property => (
-              <th key={property}>{propertyLabelMapping[property]}</th>
+              property !== 'keyed_name' && <th key={property}>{propertyLabelMapping[property]}</th>
             ))}
           </tr>
         </thead>
@@ -56,8 +55,9 @@ const PartsTable = ({ parts, propertyNames }) => {
         <tbody>
           {parts.map((item, index) => (
             <tr key={index}>
+              <td>{item['keyed_name']}</td> {/* Render 'Keyed Name' data first */}
               {propertyNames.map(property => (
-                <td key={property}>{item[property]}</td>
+                property !== 'keyed_name' && <td key={property}>{item[property]}</td>
               ))}
             </tr>
           ))}
