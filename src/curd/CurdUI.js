@@ -1,34 +1,33 @@
 import React, { useEffect, useState } from 'react';
 import { Button } from 'react-bootstrap';
-import GetItem from './GetItem';
+import Save from './save'; // Import the Save component
 import { useLocation } from 'react-router-dom';
 import './CurdUI.css';
-import save from './save';
 
-const CurdUI = () => { 
+const CurdUI = () => {
     const location = useLocation();
-    const [itemData, setItemData] = useState({
-        item_number: '',
-        name: '',
-        description: '',
-        classification: '',
-        keyed_name: ''
+
+    // Load item data from localStorage if available, or use default state
+    const [itemData, setItemData] = useState(() => {
+        const savedData = localStorage.getItem('itemData');
+        return savedData ? JSON.parse(savedData) : {
+            id: '',
+            item_number: '',
+            name: '',
+            description: '',
+            classification: '',
+            keyed_name: ''
+        };
     });
 
-    useEffect(() =>{
-        // debugger;
-        if (location.state){
-               console.log("Location state:", location.state);
-            const {item_number,name,description,classification,keyed_name} = location.state;
-            setItemData({item_number,name,description,classification,keyed_name});
-        }
-    },[location.state]);
+    // State to hold the original item data
+    const [originalItemData, setOriginalItemData] = useState({});
 
-    const [editMode, setEditMode] = useState(false); 
+    // State to manage edit mode
+    const [editMode, setEditMode] = useState(false);
 
-   
-
-    const handleChange = (e) => {
+    // Function to handle changes in input fields
+    const handleInputChange = (e) => {
         const { name, value } = e.target;
         setItemData(prevData => ({
             ...prevData,
@@ -36,46 +35,67 @@ const CurdUI = () => {
         }));
     };
 
+    // Function to enter edit mode
     const handleEdit = () => {
-        setEditMode(true); // Enable edit mode
+        // Save the current item data as original data
+        setOriginalItemData(itemData);
+        setEditMode(true); 
     };
 
-    const handleSave = () => {
-        setEditMode(false); // Disable edit mode
-        // Perform save operation or any other necessary action
+    // Function to handle refreshing the page
+    const handleRefresh = () => {
+        // Reset itemData to its original value
+        setItemData(originalItemData);
     };
+
+    // Function to exit edit mode and discard changes
+    const handleDiscard = () => {
+        // Reset itemData to its original value
+        setItemData(originalItemData);
+        setEditMode(false); 
+    };
+
+    useEffect(() => {
+        if (location.state) {
+            console.log("Location state:", location.state);
+            const { id, item_number, name, description, classification, keyed_name } = location.state;
+            setItemData({ id, item_number, name, description, classification, keyed_name });
+        }
+    }, [location.state]);
+
+    useEffect(() => {
+        localStorage.setItem('itemData', JSON.stringify(itemData));
+    }, [itemData]);
 
     return (
         <div style={{ backgroundColor: 'rgba(135, 206, 235, 0.5)' }} className='container'>
             <form>
                 <div className='buttons'>
-                    <Button onClick={handleEdit} className='btn btn-success' type='button'>Edit</Button>
-                    <Button className='btn btn-primary' type='submit' disabled={!editMode}>Refresh</Button>
-                    <Button className='btn btn-danger' type='submit' disabled={!editMode}>Discard</Button>
-                    {/* <Button onClick={getPart} className='btn btn-primary' type='button'>GET</Button> */}
-                    {editMode && <Button onClick={handleSave}  className='btn btn-success' type='button'>Save</Button>}
+                    {!editMode && <Button className='btn btn-success' type='button' onClick={handleEdit}>Edit</Button>}
+                    <Button className='btn btn-primary' type='button' onClick={handleRefresh} disabled={!editMode}>Refresh</Button>
+                    <Button className='btn btn-danger' type='button' onClick={handleDiscard} disabled={!editMode}>Discard</Button>
+                    <Save itemData={itemData} setEditMode={setEditMode} />
                 </div>
-
                 <div className='input'>
                     <div className="form-group">
                         <label> Item_Number:   </label>
-                        <input type='text' id="Item_Number" className="form-control" placeholder='Enter your Item_Number' name='item_number' value={itemData.item_number} onChange={handleChange} disabled={!editMode} />
+                        <input type='text' id="Item_Number" className="form-control" placeholder='Enter your Item_Number' name='item_number' value={itemData.item_number} onChange={handleInputChange} disabled={!editMode} />
                     </div>
                     <div className="form-group">
                         <label> Name:   </label>
-                        <input type='text' id="Name" className="form-control" placeholder='Enter your Name' name='name' value={itemData.name} onChange={handleChange} disabled={!editMode} />
+                        <input type='text' id="Name" className="form-control" placeholder='Enter your Name' name='name' value={itemData.name} onChange={handleInputChange} disabled={!editMode} />
                     </div>
                     <div className="form-group">
                         <label> Keyed_Name:   </label>
-                        <input type='text' id="Keyed_Name" className="form-control" placeholder='Enter your Keyed_Name' name='keyed_name' value={itemData.keyed_name} onChange={handleChange} disabled={!editMode} />
+                        <input type='text' id="Keyed_Name" className="form-control" placeholder='Enter your Keyed_Name' name='keyed_name' value={itemData.keyed_name} onChange={handleInputChange} disabled={!editMode} />
                     </div>
                     <div className="form-group">
                         <label> Description:   </label>
-                        <input type='txtarea'  txtarea id="Description" className="form-control" placeholder='Enter your Description' name='description' value={itemData.description} onChange={handleChange} disabled={!editMode} />
+                        <input type='textarea' id="Description" className="form-control" placeholder='Enter your Description' name='description' value={itemData.description} onChange={handleInputChange} disabled={!editMode} />
                     </div>
                     <div className="form-group">
                         <label> Type:   </label>
-                        <input type='text' id="Type" className="form-control" placeholder='Enter your Type' name='classification' value={itemData.classification} onChange={handleChange} disabled={!editMode} />
+                        <input type='text' id="Type" className="form-control" placeholder='Enter your Type' name='classification' value={itemData.classification} onChange={handleInputChange} disabled={!editMode} />
                     </div>
                 </div>
             </form>

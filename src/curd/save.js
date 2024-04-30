@@ -2,8 +2,10 @@ import React from 'react';
 import axios from 'axios';
 
 const Save = ({ itemData, setEditMode }) => {
+    // Function to handle save button click
     const handleSave = () => {
         axios.patch(`http://localhost/InnovatorServer22/server/odata/Part('${itemData.id}')`, {
+            
             item_number: itemData.item_number,
             name: itemData.name,
             description: itemData.description,
@@ -17,7 +19,7 @@ const Save = ({ itemData, setEditMode }) => {
         })
         .then(response => {
             console.log('Data updated successfully:', response.data);
-            setEditMode(false); // Disable edit mode
+            setEditMode(false); // Disable edit mode after successful update
         })
         .catch(error => {
             console.error('Error updating data:', error);
@@ -25,9 +27,7 @@ const Save = ({ itemData, setEditMode }) => {
     };
 
     return (
-        <button className='btn btn-success' type='button' onClick={handleSave}>
-            Save
-        </button>
+        <button className='btn btn-success' type='button' onClick={handleSave}>Save</button>
     );
 };
 
