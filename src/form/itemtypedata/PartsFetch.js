@@ -15,7 +15,7 @@ const PartsFetch = () => {
     }, []);
 
     const fetchParts = () => {
-        axios.get(baseUrl, {
+        axios.get(baseUrl,{
             headers: {
                 'Authorization': `Bearer ${token}`
             }

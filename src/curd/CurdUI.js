@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button } from 'react-bootstrap';
 import GetItem from './GetItem';
+import { useLocation } from 'react-router-dom';
 import './CurdUI.css';
+import save from './save';
 
-const CurdUI = () => {
+const CurdUI = () => { 
+    const location = useLocation();
     const [itemData, setItemData] = useState({
         item_number: '',
         name: '',
@@ -12,19 +15,18 @@ const CurdUI = () => {
         keyed_name: ''
     });
 
-    const [editMode, setEditMode] = useState(false); // State to track edit mode
+    useEffect(() =>{
+        // debugger;
+        if (location.state){
+               console.log("Location state:", location.state);
+            const {item_number,name,description,classification,keyed_name} = location.state;
+            setItemData({item_number,name,description,classification,keyed_name});
+        }
+    },[location.state]);
 
-    const handleFetch = (data) => {
-        console.log("Fetched data:", data);
-        setItemData(data);
-    };
+    const [editMode, setEditMode] = useState(false); 
 
-    const getPart = async () => {
-        console.log("GET button clicked");
-        const result = await GetItem();
-        console.log("Result: ", result);
-        setItemData(result);
-    };
+   
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -50,8 +52,8 @@ const CurdUI = () => {
                     <Button onClick={handleEdit} className='btn btn-success' type='button'>Edit</Button>
                     <Button className='btn btn-primary' type='submit' disabled={!editMode}>Refresh</Button>
                     <Button className='btn btn-danger' type='submit' disabled={!editMode}>Discard</Button>
-                    <Button onClick={getPart} className='btn btn-primary' type='button'>GET</Button>
-                    {editMode && <Button onClick={handleSave} className='btn btn-success' type='button'>Save</Button>}
+                    {/* <Button onClick={getPart} className='btn btn-primary' type='button'>GET</Button> */}
+                    {editMode && <Button onClick={handleSave}  className='btn btn-success' type='button'>Save</Button>}
                 </div>
 
                 <div className='input'>

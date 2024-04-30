@@ -39,7 +39,7 @@ function App() {
     <Route index element={<Login />}/>
     <Route path='/Login' element={<Login />}/>
     <Route path='/Parts' element={<PartsFetch />}/>
-    <Route path='/curd' element={<CurdUI />}/>
+    <Route path='/curd/:keyed_name' element={<CurdUI />}/>
     <Route path='*' element={<NoPage />}/>
     </Routes>
     </BrowserRouter>

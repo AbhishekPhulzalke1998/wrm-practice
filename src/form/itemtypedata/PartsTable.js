@@ -1,9 +1,14 @@
 import React from 'react';
 import Table from 'react-bootstrap/Table';
 import 'bootstrap/dist/css/bootstrap.min.css';
+// import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const PartsTable = ({ parts, propertyNames }) => {
-  // Configured labels for each property
+
+  // const history = useHistory();
+  const navigate = useNavigate();
+
   const propertyLabelMapping = {
     created_on: 'Created_On',
     'current_state@aras.name': 'Current_State',
@@ -36,6 +41,14 @@ const PartsTable = ({ parts, propertyNames }) => {
     release_date: 'Release Date',
   };
 
+  const handleRowClick = (selectedItem) => {
+    // debugger;
+    navigate(`/curd/${selectedItem.keyed_name}`, { state: selectedItem });
+    console.log("data to be send ",selectedItem);
+};
+
+
+
   if (!parts || !propertyNames) {
     return <div>Unable to fetch the parts</div>;
   }
@@ -45,7 +58,7 @@ const PartsTable = ({ parts, propertyNames }) => {
       <Table striped bordered hover variant="dark">
         <thead className="thead-light">
           <tr>
-            <th>{propertyLabelMapping['keyed_name']}</th> {/* Render 'Keyed Name' column first */}
+            <th>{propertyLabelMapping['keyed_name']}</th> 
             {propertyNames.map(property => (
               property !== 'keyed_name' && <th key={property}>{propertyLabelMapping[property]}</th>
             ))}
@@ -54,8 +67,10 @@ const PartsTable = ({ parts, propertyNames }) => {
         
         <tbody>
           {parts.map((item, index) => (
-            <tr key={index}>
-              <td>{item['keyed_name']}</td> {/* Render 'Keyed Name' data first */}
+          <tr key={index} onClick={() => handleRowClick(item)} style={{cursor: 'pointer'}}>
+              {/* debugger; */}
+              {/* console.log("data transfer to another component ",selectedItem); */}
+              <td>{item['keyed_name']}</td> 
               {propertyNames.map(property => (
                 property !== 'keyed_name' && <td key={property}>{item[property]}</td>
               ))}

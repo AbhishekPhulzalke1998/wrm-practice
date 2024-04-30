@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 
 const  GetItem =  async () => {
-    const baseUrl = 'http://localhost/InnovatorServer22/server/odata/Part(\'4AC554FF87564361BDD1AAB1DCFC9052\')?$select=item_number,name,description,classification,keyed_name';
+    const baseUrl = 'http://localhost/InnovatorServer22/server/odata/Part(\'B4C77048157C4A87BEA616DBB1CF103F\')?$select=item_number,name,description,classification,keyed_name';
     const token = localStorage.getItem('token');
 debugger;
           try{
