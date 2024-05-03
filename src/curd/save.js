@@ -1,11 +1,12 @@
 import React from 'react';
 import axios from 'axios';
 
-const Save = ({ itemData, setEditMode }) => {
+const Save = ({ itemData, setEditMode, updateItemId }) => {
+    const token = localStorage.getItem('token');
+
     // Function to handle save button click
     const handleSave = () => {
         axios.patch(`http://localhost/InnovatorServer22/server/odata/Part('${itemData.id}')`, {
-            
             item_number: itemData.item_number,
             name: itemData.name,
             description: itemData.description,
@@ -14,11 +15,13 @@ const Save = ({ itemData, setEditMode }) => {
         }, {
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem('token')}`
+                'Authorization': `Bearer ${token}`
             }
         })
         .then(response => {
             console.log('Data updated successfully:', response.data);
+            // Update item data with the new ID
+            updateItemId(response.data.id);
             setEditMode(false); // Disable edit mode after successful update
         })
         .catch(error => {

@@ -3,6 +3,7 @@ import axios from 'axios';
 import PartsTable from './PartsTable'; 
 import './PartsTable.css'
 
+
 const PartsFetch = () => {
     const baseUrl = 'http://localhost/InnovatorServer22/server/odata/Part?$select=config_id, item_number, name, description, classification, keyed_name,make_buy,is_released,cost,id'
     const token = localStorage.getItem('token');

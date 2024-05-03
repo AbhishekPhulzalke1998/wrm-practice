@@ -3,6 +3,7 @@ import { Button } from 'react-bootstrap';
 import Save from './save'; // Import the Save component
 import { useLocation } from 'react-router-dom';
 import './CurdUI.css';
+import { useItemDataContext } from './DataItemCon';
 
 const CurdUI = () => {
     const location = useLocation();
@@ -67,6 +68,14 @@ const CurdUI = () => {
         localStorage.setItem('itemData', JSON.stringify(itemData));
     }, [itemData]);
 
+    // Function to update itemData with new ID
+    const updateItemId = (newId) => {
+        setItemData(prevData => ({
+            ...prevData,
+            id: newId
+        }));
+    };
+
     return (
         <div style={{ backgroundColor: 'rgba(135, 206, 235, 0.5)' }} className='container'>
             <form>
@@ -74,7 +83,7 @@ const CurdUI = () => {
                     {!editMode && <Button className='btn btn-success' type='button' onClick={handleEdit}>Edit</Button>}
                     <Button className='btn btn-primary' type='button' onClick={handleRefresh} disabled={!editMode}>Refresh</Button>
                     <Button className='btn btn-danger' type='button' onClick={handleDiscard} disabled={!editMode}>Discard</Button>
-                    <Save itemData={itemData} setEditMode={setEditMode} />
+                    <Save itemData={itemData} setEditMode={setEditMode} updateItemId={updateItemId} />
                 </div>
                 <div className='input'>
                     <div className="form-group">
