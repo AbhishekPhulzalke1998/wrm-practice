@@ -14,6 +14,7 @@ import PartsFetch from './form/itemtypedata/PartsFetch';
 import PartsTable from './form/itemtypedata/PartsTable';
 import NoPage from './form/NoPage';
 import CurdUI from './curd/CurdUI';
+import Home from './Home';
 
 
 
@@ -36,7 +37,7 @@ function App() {
     {/* <PartsTable />  */}
 
 
-    <Route index element={<Login />}/>
+    <Route index element={<Home />}/>
     <Route path='/Login' element={<Login />}/>
     <Route path='/Parts' element={<PartsFetch />}/>
     <Route path='/curd/:keyed_name' element={<CurdUI />}/>

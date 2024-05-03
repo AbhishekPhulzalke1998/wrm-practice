@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
 const Save = ({ itemData, setEditMode, updateItemId }) => {
     const token = localStorage.getItem('token');
@@ -22,10 +23,12 @@ const Save = ({ itemData, setEditMode, updateItemId }) => {
             console.log('Data updated successfully:', response.data);
             // Update item data with the new ID
             updateItemId(response.data.id);
+            Swal.fire('success!','your action has been completed','success');
             setEditMode(false); // Disable edit mode after successful update
         })
         .catch(error => {
             console.error('Error updating data:', error);
+            Swal.fire('Error','something went wroong.','error');
         });
     };
 
